@@ -20,25 +20,7 @@ def create_index(tfrecord_file: str, index_file: str) -> None:
     index_file: str
         Path where to store the index file.
     """
-    infile = open(tfrecord_file, "rb")
-    outfile = open(index_file, "w")
-
-    while True:
-        current = infile.tell()
-        try:
-            byte_len = infile.read(8)
-            if len(byte_len) == 0:
-                break
-            infile.read(4)
-            proto_len = struct.unpack("q", byte_len)[0]
-            infile.read(proto_len)
-            infile.read(4)
-            outfile.write(str(current) + " " + str(infile.tell() - current) + "\n")
-        except:
-            print("Failed to parse TFRecord.")
-            break
-    infile.close()
-    outfile.close()
+    pass
 
 
 def create_indices(tfrecord_dir: str) -> None:
@@ -49,32 +31,11 @@ def create_indices(tfrecord_dir: str) -> None:
     tfrecord_dir: str
         Path to the directory containing TFRecord files.
     """
-
-    for tfrecord_file in glob.glob(os.path.join(tfrecord_dir, "*.tfrecord")):
-        index_file = os.path.splitext(tfrecord_file)[0] + ".tfindex"
-        create_index(tfrecord_file, index_file)
+    pass
 
 
 def main():
-    if len(sys.argv) not in [2, 3]:
-        print(
-            """Usage:
-        To create index for individual tfrecord file:
-        tfrecord2idx <tfrecord path> <index path>
-
-        To create index for all tfrecord files in a directory:
-        tfrecord2idx <tfrecord dir>
-        
-        This will search for all "*.tfrecord" files and create corresponding
-        "*.tfindex" files.
-        """
-        )
-        sys.exit()
-
-    if os.path.isdir(sys.argv[1]):
-        create_indices(sys.argv[1])
-    else:
-        create_index(sys.argv[1], sys.argv[2])
+    pass
 
 
 if __name__ == "__main__":
